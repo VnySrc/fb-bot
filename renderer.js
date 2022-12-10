@@ -507,6 +507,8 @@ async function getComments(page) {
             commentPersonName = selecedComment.querySelector("span.x3nfvp2 > span.x193iq5w.xeuugli.x13faqbe")
           }
         }
+        console.log(commentPersonName)
+        console.log(commentPersonName.innerHTML)
 
       //  const commentPersonPicture = selecedComment.querySelector("i") // Nome da pessoa que comentou
         
