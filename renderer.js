@@ -494,21 +494,16 @@ async function getComments(page) {
         let commentPersonName 
 
         try {
-            console.log("Usando 1")
             page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
             commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
         } catch {
           try {
-            console.log("Usando 2")
             page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
             commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
           }catch {
-            console.log("Usando 3")
             commentPersonName = selecedComment.querySelector("span.x3nfvp2 > span.x193iq5w.xeuugli.x13faqbe")
           }
         }
-        console.log(commentPersonName)
-        console.log(commentPersonName.innerHTML)
 
       //  const commentPersonPicture = selecedComment.querySelector("i") // Nome da pessoa que comentou
         
@@ -550,7 +545,19 @@ async function getComments(page) {
 
           const selecedComment = commentArray[selectedCommentData.index]
           const commentActions = selecedComment.querySelector(`.x1n0m28w.x1rg5ohu.x1wfe3co.xat24cr.xsgj6o6.x1o1nzlu.xyqdw3p`) //container ações cometario  
-          const commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
+          let commentPersonName 
+
+          try {
+              page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
+              commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
+          } catch {
+            try {
+              page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
+              commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
+            }catch {
+              commentPersonName = selecedComment.querySelector("span.x3nfvp2 > span.x193iq5w.xeuugli.x13faqbe")
+            }
+          }
         //  const commentPersonPicture = selecedComment.querySelector("i") // Nome da pessoa que comentou
           const commentReply = commentActions.querySelector(".x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.xi81zsa.x1ypdohk.x1rg5ohu.x117nqv4.x1n2onr6.xt0b8zv") // botao responder //! document.querySelector("#mount_0_0_Jy > div > div:nth-child(1) > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x10cihs4.x1t2pt76.x1n2onr6.x1ja2u2z > div.x78zum5.xdt5ytf.x1iyjqo2.x1us19tq > div > div.x9f619.x2lah0s.x1n2onr6.x78zum5.x1iyjqo2.x1t2pt76.x1lspesw > div > div > div.x78zum5.xdt5ytf.x1iyjqo2 > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div:nth-child(8) > div > div:nth-child(4) > div > div > div.x1jx94hy.x12nagc > ul > li:nth-child(1) > div.x1n2onr6 > div > div.x1r8uery.x1iyjqo2.x6ikm8r.x10wlt62.x1pi30zi > ul > li:nth-child(2) > div")
         function yy(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a }
