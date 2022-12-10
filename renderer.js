@@ -413,7 +413,7 @@ async function getComments(page) {
     let selectedCommentData
     await page.exposeFunction('getSelectedCommentPersonAndPicture', (person, uniqueID, index) => {
       try {
-        selectedCommentData = { person, uniqueID, index}
+        selectedCommentData = { person, uniqueID, index, tag}
       } catch (err) {
         consoleAndWriteOnLog(err)
         logger.debug(err)
@@ -490,7 +490,6 @@ async function getComments(page) {
         function betWin2(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a }
         const selectedCommentIndex = betWin2(0, commentArray.length - 1)
         const selecedComment = commentArray[selectedCommentIndex]
-
         let commentPersonName 
 
         try {
@@ -508,8 +507,9 @@ async function getComments(page) {
       //  const commentPersonPicture = selecedComment.querySelector("i") // Nome da pessoa que comentou
         
         const uniqueID = selecedComment.querySelector(".x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1rg5ohu.x1a2a7pz")
+        const commentTag = selecedComment.querySelector("span.xv78j7m xt0e3qv")
 
-        window.getSelectedCommentPersonAndPicture(commentPersonName.innerHTML, uniqueID.getAttribute("href").split("user/")[1].split("/")[0], selectedCommentIndex)
+        window.getSelectedCommentPersonAndPicture(commentPersonName.innerHTML, uniqueID.getAttribute("href").split("user/")[1].split("/")[0], selectedCommentIndex, commentTag.innerHTML)
 
       }, shuflledIndex, postFile, page)
 
@@ -535,9 +535,6 @@ async function getComments(page) {
           //   setComment.add(post.uniqueID);
           //   return !duplicatedPost;
           // });  // pegar sempre o index 0 e filtrar aqui pelo unique id tipo comentArrayFiltred. =comentArrayFiltred.filter(i => { i.getAttribute("aria-label")}) commentArray  // pegar sempre o index 0 e filtrar aqui pelo unique id tipo comentArrayFiltred. =comentArrayFiltred.filter(i => { i.getAttribute("aria-label")}) commentArray
-
-           console.log(commentArray.length) //! 1
-           console.log(commentArray.length)
 
           if (commentArray.length < 1) {
             return false
@@ -587,7 +584,7 @@ async function getComments(page) {
         await page.keyboard.press("Backspace")
         await page.keyboard.press("Backspace")
         await sleep(yy(3, 7))
-        page.keyboard.type(randomString)
+        page.keyboard.type(selectedCommentData + " " + randomString)
         commentedPhrases.push(randomString)
         fs.writeFileSync(`${pagesDir}/${url}.json`, JSON.stringify(postFile, null, 4))
         // await sleep(yy(3, 9))
