@@ -1,0 +1,26 @@
+{
+  "name": "fb-bot",
+  "productName": "fb-bot",
+  "description": "Um bot para o facebook",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "vinyc",
+  "scripts": {
+    "start": "electron main.js",
+    "build": "electron-builder --dir"
+  },
+  "dependencies": {
+    "@popperjs/core": "2.11.6",
+    "bootstrap": "5.2.3",
+    "jquery": "3.6.1",
+    "log4js": "^6.7.1",
+    "puppeteer-core": "19.3.0",
+    "puppeteer-extra": "3.3.4",
+    "puppeteer-extra-plugin-stealth": "2.11.1"
+  },
+  "devDependencies": {
+    "electron": "^21.3.1",
+    "electron-builder": "^23.6.0"
+  }
+}

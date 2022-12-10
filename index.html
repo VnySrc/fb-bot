@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot FB</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script>window.$ = window.jQuery = require('jquery');</script>
+  <!-- <script>require('popper.js');</script> -->
+  <script>require('bootstrap');</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./style.css"></style>
+</head>
+
+<body>
+    <div id="alert-modal-id" class="alert-modal">
+        <div id="alert-modal-content-id" class="alert-modal-content" style="background-color: red;">
+            <span>Alerta aqui</span>
+            <a href="#" class="pf-modal-fechar">&times;</a>
+        </div>
+    </div>
+    <div id="main-id" class="main-container" style="display: none; z-index: -1;">
+        <div class="main-titlte-container">
+            <h3 id="main-titlte">Bot Facebook</h3>
+        </div>
+        <div class="buttons-container">
+            <button class="btns navbtns" id="inicio">Inicio</button>
+            <button class="btns navbtns" id="contas">Contas</button>
+            <button class="btns navbtns" id="posts">Posts</button>
+            <button class="btns navbtns" id="verificar" onclick="verifyEmails()" style="background-color: green;">Verificar</button>
+        </div>
+        <div class="switch-btns-container">
+            <button id="startBtn" class="btns switch-btn" onclick="runBot(true)">Iniciar</button>
+        </div>
+        <div class="flex-row"> 
+            <div class="flex-collum">
+                <section>Resposta do BOT</section>
+                <input class="inputs-prin" id="link" type="text" placeholder="Conteudo a ser comentado nas respostas"> 
+            </div>
+            <div class="flex-collum">
+                <section>Quantidade de Respostas</section>
+                <input class="inputs-prin" id="quantidade-respostas" type="number" min="0" placeholder="Quantidade de respostas antes da pausa"> 
+            </div>
+            <div class="flex-collum">
+                <section>Tempo de pausa</section>
+                <input class="inputs-prin" id="tempo-pausa" type="number" min="0" placeholder="Tempo de pausa do bot em minutos apos atingir quantidade de respostas "> 
+            </div>
+        </div>
+        <div id="switch-data">
+           
+        </div>
+    </div>
+    <div id="first-id" class="main-container">
+        <div id="delete-modal" class="profile-modal">
+            <div class="profile-modal-content">
+                <label for="">Confirmar Exclusão</label>
+                <button class="btns" id="delete-btn-confirm">Confimar Exclusão</button>
+                <a href="#" class="pf-modal-fechar">&times;</a>
+            </div>
+        </div>
+        <div id="pf-modal" class="profile-modal">
+            <div class="profile-modal-content">
+                <label for="">Nome do novo Perfil</label>
+                <input type="text" name="" id="profile-name-input" placeholder="Nome do novo perfil">
+                <button class="btns" onclick="addProfile()">Salvar</button>
+                <a href="#" class="pf-modal-fechar">&times;</a>
+            </div>
+        </div>
+        <div>Profiles Salvos</div>
+        <div class="options-grid">
+           
+        </div>
+        <div>
+            <a class="btns" href="#pf-modal">
+                Adicionar Novo Profile
+            </a>
+        </div>
+    </div>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap:25px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 24.5%);
+            grid-template-rows: repeat(4, 75px);
+            gap: 5px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .options-grid-item {
+            background-color: black;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .options-grid-item div {
+            display: grid;
+            grid-template-columns: repeat(2, 50%);
+            cursor: pointer;
+        }
+        
+
+        .main-titlte-container {
+            margin-top: 27px;
+            font-size: 25px;
+        }
+    .inputs-prin {
+        padding: 7px 5px 7px 5px;
+        width: 50%;
+        border-radius: 3px;
+        outline: none;
+        width: 100%;
+    }
+        .btns {
+            font-size: large;
+            padding: 10px 15px;
+            border-radius: 7px;
+            background-color: black;
+            color: white;
+
+            text-align: center;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+            height: 90%;
+        }
+
+        .infos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-item-header {
+            display: flex;
+            flex-direction: row;
+            gap: 65%;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+
+            height: 150px;
+            width: 550px;
+        }
+
+        .info-item-data {
+            text-align: start;
+            width: 100%;
+            background-color: grey;
+            border-radius: 7px;
+            height: 100%;
+            padding: 5px;
+
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            color: white;
+            text-shadow: 1px 2px 3px black;
+        }
+        
+        .switch-btn {
+            font-size: large;
+            padding: 50px 150px;
+            border-radius: 7px;
+            background-color: green;
+            border: none;
+            color: white;
+
+            text-align: center;
+            align-items: center;
+            transform: translateY(-20px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 50%);
+            height: 170px;
+           gap: 10px;
+           padding: 15px;
+        }
+
+        .grid-item {
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            text-shadow: 1px 2px 3px black;
+            color: white;
+            width: 100%;
+            height: 250px;
+            background-color: gray;
+            overflow: auto;
+
+            text-align: start;
+        }
+
+        .profile-modal {
+            display: flex;
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            align-items: center;
+            justify-content: center;
+
+            transition: all .4s;
+        }
+        .profile-modal-content {
+            background-color: gray;
+            width: 400px;
+            height: 200px;
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 25px;
+        }
+
+        .profile-modal-content input {
+            border-radius: 5px;
+            padding: 5px;
+            outline: none;
+        }
+
+        .profile-modal:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .pf-modal-fechar {
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            color: black;
+            font-size: medium;
+            text-decoration: none;
+        }
+
+        .alert-modal {
+            display: flex;
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            align-items: center;
+            justify-content: center;
+
+            transform: translateY(-50px);
+
+            transition: all .4s;
+        }
+
+        .alert-modal-content {
+            color: white;
+            font-size: 14px;
+            background-color: red;
+            width: 500px;
+            height: 90px;
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            font-style: none;
+        }
+
+        .flex-row {
+          display: grid;
+          grid-template-columns: repeat(3, 32%);
+          gap: 20px;
+        }
+
+        .flex-collum {
+          display: flex;
+          flex-direction: column;
+          gap:10px;
+        }
+
+      
+       
+
+        #console {
+            flex-direction: column-reverse;
+        }
+    </style>
+
+    <script src="./renderer.js"></script>
+    <script type="module">
+        import { accountsObj,postsObj, inicioObj } from "./objects.js"
+        const obj = {
+            inicio: inicioObj,
+            contas: accountsObj,
+            posts: postsObj,
+        }
+
+        function showInicio () {
+           document.getElementById("switch-data").innerHTML = ""
+           document.getElementById("switch-data").innerHTML = obj["inicio"]
+            const accounts = getAllAccounts()
+            const posts = getAllPosts()
+
+            document.getElementById("emails-content").innerHTML = `
+            <tr  style="width:100%;">
+      <th>Email</th>
+      <th>Senha</th>
+      <th>Status</th>
+    </tr>`
+
+            accounts.forEach(conta => {
+                document.getElementById("emails-content").innerHTML += `
+                <tr>
+                      <td>${conta.email}</td>
+                      <td>${conta.senha}</td>
+                      <td>${conta.status}</td>
+                    </tr>
+                `
+                // <div class="flex-emails-content"><span>${conta.email}</span> <span>${conta.status}</span></div>
+            })
+        }
+        function showContas () {
+            const accounts = getAllAccounts()
+            console.log(accounts)
+            document.getElementById("switch-data").innerHTML = ""
+            document.getElementById("switch-data").innerHTML = obj["contas"]
+            document.getElementById("table-results").innerHTML = ""
+            accounts.forEach(account => {
+                document.getElementById("table-results").innerHTML += `
+            <tr>
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox"  class="checkbox-delete" name="options[]" value=${account.id}>
+                        <label for="checkbox1"></label>
+                    </span>
+                </td>
+                <td>${account.email}</td>
+                <td>${account.senha}</td>
+            </tr>
+            `
+            });
+           
+        }
+        function showPosts (e) {
+            const posts = getAllPosts()
+            document.getElementById("switch-data").innerHTML = ""
+            document.getElementById("switch-data").innerHTML = obj["posts"]
+            document.getElementById("table-results").innerHTML = ""
+            posts.forEach(post => {
+                document.getElementById("table-results").innerHTML += `
+            <tr>
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
+                        <label for="checkbox1"></label>
+                    </span>
+                </td>
+                <td>${post.url}</td>
+                <td>${post.status}</td>
+            </tr>
+            `
+            });
+           
+        }
+        function showProfiles () {
+            const profiles = getAllProfiles()
+            console.log(profiles)
+            document.querySelector(".options-grid").innerHTML = ""
+            profiles.forEach(perfil => {
+                document.querySelector(".options-grid").innerHTML +=
+                 `
+                <section class="options-grid-item">
+                    <span>${perfil.nome}</span>
+                    <div>
+                        <span style="background-color: green; border-radius: 7px; padding: 5px;" class="enter-btn" onclick="setSelectedProfile('${perfil.nome}')">Entrar</span>
+                        <a class="pre-delete-btn" href="#delete-modal" style="background-color: red; border-radius: 7px; padding: 5px;" data-namevalue="${perfil.nome}">Deletar</a>
+                    </div>
+                </section>
+                `
+            })
+        }
+        showProfiles()
+        document.getElementById("inicio").addEventListener("click", showInicio)
+        document.getElementById("contas").addEventListener("click", showContas)
+        document.getElementById("posts").addEventListener("click", showPosts)
+
+        document.querySelectorAll(".enter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                setTimeout(() => {
+                    showInicio()
+                }, 1500);
+            })
+        })
+
+        document.querySelectorAll(".pre-delete-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                console.log(e.target)
+                document.getElementById("delete-btn-confirm").addEventListener("click", () => {deleteProfile(e.target.dataset.namevalue)})
+            })
+        })
+        
+        // document.getElementById("sair").addEventListener("click", sair)
+    </script>
+</body>
+
+</html>
