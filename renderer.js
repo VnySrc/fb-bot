@@ -421,10 +421,10 @@ async function getComments(page) {
     });
 
     try {
-      await page.waitForSelector(".x78zum5.x1w0mnb.xeuugli", {timeout: 35000})
+      await page.waitForSelector(".x1i10hfl.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x3nfvp2.x1q0g3np.x87ps6o.x1a2a7pz.x6s0dn4.xi81zsa.x1iyjqo2.xs83m0k.xsyo7zv.xt0b8zv > .x78zum5.x1w0mnb.xeuugli", {timeout: 35000})
       let wileLimit = 0
-      while (await page.waitForSelector(".x78zum5.x1w0mnb.xeuugli", {timeout: 5000}) && wileLimit < 7) {
-        page.$eval(".x78zum5.x1w0mnb.xeuugli", btn => btn.click())
+      while (await page.waitForSelector(".x1i10hfl.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x3nfvp2.x1q0g3np.x87ps6o.x1a2a7pz.x6s0dn4.xi81zsa.x1iyjqo2.xs83m0k.xsyo7zv.xt0b8zv > .x78zum5.x1w0mnb.xeuugli", {timeout: 5000}) && wileLimit < 7) {
+        page.$eval(".x1i10hfl.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x3nfvp2.x1q0g3np.x87ps6o.x1a2a7pz.x6s0dn4.xi81zsa.x1iyjqo2.xs83m0k.xsyo7zv.xt0b8zv > .x78zum5.x1w0mnb.xeuugli", btn => btn.click())
         await sleep(3) 
         wileLimit = wileLimit + 1
       }
@@ -507,9 +507,9 @@ async function getComments(page) {
       //  const commentPersonPicture = selecedComment.querySelector("i") // Nome da pessoa que comentou
         
         const uniqueID = selecedComment.querySelector(".x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1rg5ohu.x1a2a7pz")
-        const commentTag = selecedComment.querySelector("span.xv78j7m.xt0e3qv")
+        // const commentTag = selecedComment.querySelector(".xv78j7m.xt0e3qv")
 
-        window.getSelectedCommentPersonAndPicture(commentPersonName.innerHTML, uniqueID.getAttribute("href").split("user/")[1].split("/")[0], selectedCommentIndex, commentTag.innerHTML)
+        window.getSelectedCommentPersonAndPicture(commentPersonName.innerHTML, uniqueID.getAttribute("href").split("user/")[1].split("/")[0], selectedCommentIndex, "tag")
 
       }, shuflledIndex, postFile, page)
 
@@ -579,6 +579,7 @@ async function getComments(page) {
         await sleep(yy(2, 4))
         await page.keyboard.down('ControlLeft')
         await page.keyboard.press('KeyA')
+        await page.keyboard.press('KeyC')
         await page.keyboard.up('ControlLeft')
         await sleep(yy(2, 4))
         await page.keyboard.press("Backspace")
@@ -652,8 +653,12 @@ async function editComments(page) {
           await sleep(yy(3, 5))
           await page.keyboard.press("Backspace")
           await page.keyboard.press("Backspace")
+          await sleep(yy(1, 3))
+          await page.keyboard.down('ControlLeft')
+          await page.keyboard.press('KeyV')
+          await page.keyboard.up('ControlLeft')
           await sleep(yy(5, 11))
-          await page.keyboard.type(selectedCommentData.tag + " " + geraStringAleatoria(1) + " " + commentLink + " " + geraStringAleatoria(yy(1, 3)), {delay: 200}) 
+          await page.keyboard.type(geraStringAleatoria(1) + " " + commentLink + " " + geraStringAleatoria(yy(1, 3)), {delay: 200}) 
           await sleep(yy(5, 11))
          await page.keyboard.press("Enter")
           // await page.keyboard.press("Escape")
