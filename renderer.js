@@ -467,7 +467,7 @@ async function getComments(page) {
     for (let index = 0; index < newIndex && commenQuantity < selectedQuantity; index++) {
       const shuflledIndex = shuffledIndexArray[index]
 
-      await page.evaluate(async (index, postFile) => {   // checar se comentario ja foi respondido / esta na lista doa rquivo json
+      await page.evaluate(async (index, postFile, page) => {   // checar se comentario ja foi respondido / esta na lista doa rquivo json
         const comments = document.querySelectorAll(`.x1n2onr6.x1iorvi4.x4uap5.x18d9i69.x1swvt13.x78zum5.x1q0g3np.x1a2a7pz`)
         const setComment = new Set()
         const commentArray = [...comments].filter(i => {
@@ -494,11 +494,16 @@ async function getComments(page) {
         let commentPersonName 
 
         try {
+            console.log("Usando 1")
+            page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
             commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1nxh6w3.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
         } catch {
           try {
+            console.log("Usando 2")
+            page.waitForSelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u", {timeout: 5000})
             commentPersonName = selecedComment.querySelector(".x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x4zkp8e.x676frb.x1pg5gke.x1sibtaa.x1s688f.xzsf02u") // Nome da pessoa que comentou
           }catch {
+            console.log("Usando 3")
             commentPersonName = selecedComment.querySelector("span.x3nfvp2 > span.x193iq5w.xeuugli.x13faqbe")
           }
         }
@@ -509,7 +514,7 @@ async function getComments(page) {
 
         window.getSelectedCommentPersonAndPicture(commentPersonName.innerHTML, uniqueID.getAttribute("href").split("user/")[1].split("/")[0], selectedCommentIndex)
 
-      }, shuflledIndex, postFile)
+      }, shuflledIndex, postFile, page)
 
       const verify = postFile.find(comment => comment.person === selectedCommentData.person) // encontrar se tem um comment com nome da person
 
@@ -534,8 +539,8 @@ async function getComments(page) {
           //   return !duplicatedPost;
           // });  // pegar sempre o index 0 e filtrar aqui pelo unique id tipo comentArrayFiltred. =comentArrayFiltred.filter(i => { i.getAttribute("aria-label")}) commentArray  // pegar sempre o index 0 e filtrar aqui pelo unique id tipo comentArrayFiltred. =comentArrayFiltred.filter(i => { i.getAttribute("aria-label")}) commentArray
 
-           consoleAndWriteOnLog(commentArray.length) //! 1
-           consoleAndWriteOnLog(commentArray.length)
+           console.log(commentArray.length) //! 1
+           console.log(commentArray.length)
 
           if (commentArray.length < 1) {
             return false
