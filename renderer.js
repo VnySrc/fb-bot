@@ -638,7 +638,6 @@ async function editComments(page) {
           consoleAndWriteOnLog("Verificando edições")
         }
         console.log("Content --- " + elementContent)
-        console.log("Content --- " + elementContent)
 
         if (elementContent && commentedPhrases.includes(elementContent.split(" ")[elementContent.split(" ").length - 1].trim())) {
           await sleep(yy(3, 7))
