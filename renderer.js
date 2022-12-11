@@ -655,6 +655,7 @@ async function editComments(page) {
           await page.keyboard.press("Backspace")
           await sleep(yy(1, 3))
           await page.keyboard.down('ControlLeft')
+          await page.keyboard.type('@')
           await page.keyboard.press('KeyV')
           await page.keyboard.up('ControlLeft')
           await sleep(yy(5, 11))
