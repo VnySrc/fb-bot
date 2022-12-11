@@ -640,7 +640,7 @@ async function editComments(page) {
         console.log("Content --- " + elementContent)
         console.log("Content --- " + elementContent)
 
-        if (elementContent && commentedPhrases.includes(elementContent.trim())) {
+        if (elementContent && commentedPhrases.includes(elementContent.split(" ")[1].trim())) {
           await sleep(yy(3, 7))
           consoleAndWriteOnLog("Editando comentario numero: " + index)
           await element.$eval('.x1i10hfl.x1qjc9v5.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.x2lwn1j.xeuugli.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xjyslct.xjbqb8w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x3nfvp2.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x3ajldb.x194ut8o.x1vzenxt.xd7ygy7.xt298gk.x1xhcax0.x1s928wv.x10pfhc2.x1j6awrg.x1v53gu8.x1tfg27r.xitxdhh > i', el => el.click()) // x1r8uery.x1iyjqo2.x6ikm8r.x10wlt62.x1pi30zi > div > div:nth-child(2) > div > span > div > i data-sigil="comment-body" 
