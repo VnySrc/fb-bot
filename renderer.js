@@ -665,7 +665,6 @@ async function editComments(page) {
         }
     }
     consoleAndWriteOnLog("Edits terminados")
-
     return
   } catch (err) {
     console.error(err.message)
