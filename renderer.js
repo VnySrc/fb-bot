@@ -99,7 +99,6 @@ document.getElementById("link").addEventListener("input", (e) => {
 async function startBot() {
     runBot()
 }
-
 var contasToParse
 var pagesToParse
 var pagesDir
