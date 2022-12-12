@@ -141,6 +141,7 @@ export const postsObj =  `
                 </th>
                 <th>Url</th>
                 <th>Status</th>
+                <th><button class="pending-btns" onclick="setAllPending()"> Todos Pendentes <button></th>
             </tr>
         </thead>
         <tbody id="table-results">

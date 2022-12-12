@@ -305,14 +305,14 @@ selectedPause = document.getElementById("tempo-pausa").value
 
   } catch (err) {
     if (err.message.includes("timeout") || err.message.includes("launch") || err.message.includes("r1056772")) {
-      document.getElementById("startBtn").style.backgroundColor = "green"
-      document.getElementById("startBtn").innerHTML = "Iniciar"
+      document.getElementById("startBtn").style.backgroundColor = "red"
+      document.getElementById("startBtn").innerHTML = "Parar"
       running = false
       runBot()
       return
     }else {
-      document.getElementById("startBtn").style.backgroundColor = "red"
-      document.getElementById("startBtn").innerHTML = "Parar"
+      document.getElementById("startBtn").style.backgroundColor = "green"
+      document.getElementById("startBtn").innerHTML = "Iniciar"
       running = false
       consoleAndWriteOnLog(err)
       logger.debug(err)
@@ -848,7 +848,7 @@ function savePost() {
   document.getElementById("table-results").innerHTML = ""
   parsedFile.forEach(post => {
     document.getElementById("table-results").innerHTML += `
-            <tr>
+              <tr>
                 <td>
                     <span class="custom-checkbox">
                         <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
@@ -857,6 +857,7 @@ function savePost() {
                 </td>
                 <td>${post.url}</td>
                 <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
             </tr>
             `
   });
@@ -875,7 +876,7 @@ function deletePost() {
     const parsedFileNewparsed = JSON.parse(parsedFileNew)
     parsedFileNewparsed.forEach(post => {
       document.getElementById("table-results").innerHTML += `
-            <tr>
+              <tr>
                 <td>
                     <span class="custom-checkbox">
                         <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
@@ -884,6 +885,7 @@ function deletePost() {
                 </td>
                 <td>${post.url}</td>
                 <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
             </tr>
             `
     });
@@ -906,7 +908,7 @@ function deletePost() {
   document.getElementById("table-results").innerHTML = ""
   newFile.forEach(post => {
     document.getElementById("table-results").innerHTML += `
-            <tr>
+              <tr>
                 <td>
                     <span class="custom-checkbox">
                         <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
@@ -915,6 +917,7 @@ function deletePost() {
                 </td>
                 <td>${post.url}</td>
                 <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
             </tr>
             `
   });
@@ -934,7 +937,12 @@ function getAllPosts() {
   const postsFile = fs.readFileSync(`${os.homedir().replaceAll(/\\/g, "/")}/Documents/fb-bot/profiles/${selectedProfile}/posts.json`)
   const parsedFile = JSON.parse(postsFile)
 
-  return parsedFile
+  const toReturn = parsedFile.sort((a, b) => {
+    if (a.status == "pending") return -1
+    if (a.status == "done") return 1
+    return 0
+  })
+  return toReturn
 }
 var tempBrowser
 async function verifyEmails () {
@@ -1229,4 +1237,83 @@ function setSavedConfigs () {
     document.getElementById("tempo-pausa").value = selectedProfileToEdit.delay
     document.getElementById("tempo-pausa").value = selectedProfileToEdit.delay
   }
+}
+
+
+function setPending (postId) {
+  let pagesToUse
+    let pagesToParseToUse = fs.readFileSync(`${os.homedir().replaceAll(/\\/g, "/")}/documents/fb-bot/profiles/${selectedProfile}/posts.json`)
+    pagesToUse = JSON.parse(pagesToParseToUse)
+    const selectedPost = pagesToUse.find((post) => post.id.toString() === postId.toString())
+
+      console.log(postId)
+      console.log(selectedPost)
+
+      const newPages = pagesToUse.filter(postToVisit => postToVisit.id != selectedPost.id)
+      
+      selectedPost.status = "pending"
+      newPages.push(selectedPost)
+      const toReturn = newPages.sort((a, b) => {
+        if (a.status == "pending") return -1
+        if (a.status == "done") return 1
+        return 0
+      })
+      fs.writeFileSync(`${os.homedir().replaceAll(/\\/g, "/")}/Documents/fb-bot/profiles/${selectedProfile}/posts.json`, JSON.stringify(toReturn,  null, 4))
+
+      document.getElementById("table-results").innerHTML = ""
+      toReturn.forEach(post => {
+    document.getElementById("table-results").innerHTML += `
+              <tr>
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
+                        <label for="checkbox1"></label>
+                    </span>
+                </td>
+                <td>${post.url}</td>
+                <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
+            </tr>
+            `
+  });
+  document.getElementById('url-input').value = ""
+}
+
+
+function setAllPending () {
+    let pagesToUse
+    let pagesToParseToUse = fs.readFileSync(`${os.homedir().replaceAll(/\\/g, "/")}/documents/fb-bot/profiles/${selectedProfile}/posts.json`)
+    pagesToUse = JSON.parse(pagesToParseToUse)
+    let newPages = []
+
+  pagesToUse.forEach(page => {
+    page.status = "pending"
+
+    newPages.push(page)
+  })
+      
+      const toReturn = newPages.sort((a, b) => {
+        if (a.status == "pending") return -1
+        if (a.status == "done") return 1
+        return 0
+      })
+      fs.writeFileSync(`${os.homedir().replaceAll(/\\/g, "/")}/Documents/fb-bot/profiles/${selectedProfile}/posts.json`, JSON.stringify(toReturn,  null, 4))
+
+      document.getElementById("table-results").innerHTML = ""
+      toReturn.forEach(post => {
+    document.getElementById("table-results").innerHTML += `
+              <tr>
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
+                        <label for="checkbox1"></label>
+                    </span>
+                </td>
+                <td>${post.url}</td>
+                <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
+            </tr>
+            `
+  });
+  document.getElementById('url-input').value = ""
 }

@@ -156,6 +156,19 @@
             text-decoration: none;
         }
 
+        .pending-btns {
+            font-size: medium;
+            padding: 5px 7px;
+            border-radius: 7px;
+            background-color: black;
+            color: white;
+
+            text-align: center;
+            align-items: center;
+            text-decoration: none;
+            transform: translateY(10px);
+        }
+
         .buttons-container {
             display: flex;
             justify-content: center;
@@ -403,7 +416,7 @@
             document.getElementById("table-results").innerHTML = ""
             posts.forEach(post => {
                 document.getElementById("table-results").innerHTML += `
-            <tr>
+                <tr>
                 <td>
                     <span class="custom-checkbox">
                         <input type="checkbox" class="checkbox-delete"  name="options[]" value=${post.id}>
@@ -412,6 +425,7 @@
                 </td>
                 <td>${post.url}</td>
                 <td>${post.status}</td>
+                <td><button class="pending-btns" value="${post.id}" onclick="setPending(${post.id})"> Pendente <button></td>
             </tr>
             `
             });
