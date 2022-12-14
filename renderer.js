@@ -1026,6 +1026,7 @@ async function verifyEmails () {
       catch {
         await page.waitForSelector(".xds687c.x1pi30zi.x1e558r4.xixxii4.x13vifvy.xzkaem6", {timeout: 200000})
       }
+      
       await saveCookieSession(page, verify.email)
       await sleep(2)
                             
@@ -1062,7 +1063,13 @@ accountsObj1.forEach(conta => {
         })
       }
     } catch {
-      consoleAndWriteOnLog("Falha ao verificar e-mail: " + verify.email + " " + "Error: " + "EMAIL OU SENHA INCORRETOS!")
+      consoleAndWriteOnLog("Falha ao verificar e-mail: " + verify.email + " " + "Error: " + "EMAIL OU SENHA INCORRETOS! CORRIJA E VERIFIQUE NOVAMENTE.")
+      document.getElementById("verificar").style.backgroundColor = "green"
+    document.getElementById("verificar").innerHTML = "Verificar"
+    if (tempBrowser && running === true) {
+      tempBrowser.close()
+    }
+    running = false
     }
     }
 
