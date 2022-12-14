@@ -983,6 +983,7 @@ async function verifyEmails () {
     showAlert("Sem e-mails para verificar")
   }
     for (const verify of accountsToVerifyFiltred) {
+      try {
       tempBrowser = await puppeteer.launch({
         headless: false,
         args: [
@@ -1012,9 +1013,19 @@ async function verifyEmails () {
         document.querySelector('#pass').value = accountToUse.senha
         document.querySelector('button[type="submit"]').click()
       }, verify)
-    
       // await page.waitForSelector(".")
-      await page.waitForSelector(".x9f619.x1n2onr6.x1ja2u2z.x78zum5.x2lah0s.x1nhvcw1.x1qjc9v5.xozqiw3.x1q0g3np.x1pi30zi.x1swvt13.x4cne27.xifccgj", {timeout: 900000})
+      console.log("espertandor edirecionar")
+      await page.waitForNavigation({waitUntil: 'networkidle0', timeout: 200000});
+      console.log("Redirecionou")
+
+      await sleep(3)
+
+      try {
+        await page.waitForSelector(".xds687c.xixxii4.x17qophe.x13vifvy.x1vjfegm", {timeout: 200000})
+      }
+      catch {
+        await page.waitForSelector(".xds687c.x1pi30zi.x1e558r4.xixxii4.x13vifvy.xzkaem6", {timeout: 200000})
+      }
       await saveCookieSession(page, verify.email)
       await sleep(2)
                             
@@ -1050,6 +1061,9 @@ accountsObj1.forEach(conta => {
             // <div class="flex-emails-content"><span>${conta.email}</span> <span>${conta.status}</span></div>
         })
       }
+    } catch {
+      consoleAndWriteOnLog("Falha ao verificar e-mail: " + verify.email + " " + "Error: " + "EMAIL OU SENHA INCORRETOS!")
+    }
     }
 
     
