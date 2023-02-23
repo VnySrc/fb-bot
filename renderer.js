@@ -1014,7 +1014,7 @@ async function verifyEmails () {
         document.querySelector('button[type="submit"]').click()
       }, verify)
       // await page.waitForSelector(".")
-      console.log("espertandor edirecionar")
+      console.log("esperando redirecionar")
       await page.waitForNavigation({waitUntil: 'networkidle0', timeout: 200000});
       console.log("Redirecionou")
 
